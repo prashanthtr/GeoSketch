@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+
+      <link rel="stylesheet" type="text/css" href="css/appstyle.css">
+      <script type="module" src="appscripts/bittorio-svg-oneD.js"></script>
+
+      <title> 1D cellular automata </title>
+      <style type="text/css">
+        ul { font-size: 11pt; }
+        ol { font-size: 11pt; }
+        p { font-size: 11pt; }
+        aside {font-size: 12pt;}
+        nav {overflow:scroll;}
+
+      </style>
+
+    </head>
+
+    <body bg-color="#000000">
+
+      <header> 1D cellular automata - explorations in operational closure and structural coupling </header>
+
+      <div id='main'>
+
+        <!-- <div id="centerDiv"> -->
+        <!--   <svg id="svgCanvas" width="100%" height="100%"> -->
+        <!--   </svg> -->
+        <!-- </div> -->
+
+        <article>
+          <svg id="svgCanvas" width="100%" height="100%">
+          </svg>
+        </article>
+
+        <nav>
+
+          <p id="userGuide">
+          </p>
+          <!-- <ul > -->
+          <!--   <li> This simulation presents an interactive cellular -->
+          <!--     automaton (CA) grid, that resembles, Bittorio. -->
+          <!--   </li> -->
+          <!--   <li> <b> States of CA: </b> -->
+          <!--   <ol> -->
+          <!--     <li> The first row is the initial configuration of the -->
+          <!--       CA. </li> -->
+          <!--     <li> Subsequent row of black and whites, are past states -->
+          <!--       of the CA, </li> -->
+          <!--       <li> grey cells are future states, </li> -->
+          <!--       <li> The black-white cell just preceding grey cell is -->
+          <!--         the current state of the CA. </li> -->
+          <!--     </ol> -->
+          <!--   <li>  <b> User actions: </b> drag on the current cells to perturb -->
+          <!--   them. Or, drag on the grey cells to select them as -->
+          <!--   perturbations of future states. -->
+          <!--   </li> -->
+          <!-- </ul> -->
+
+        </nav>
+
+        <aside>
+
+          <!-- <b> Controls: </b> <br> -->
+          <!-- Click the initial configuration <input type="button" id="setInitConfig" value="fix!"> </input> <br> -->
+
+          <!-- Run speed in milliseconds <input type="text" id="loopTime" -->
+          <!-- value="200" hidden>   </input> <br> -->
+
+          <h4> Shapes </h4>
+
+          <input type="button" id="square" value="Square">  </input>
+          Side <input type="text" id="side" value="2"
+                 style="width:20px"/>
+
+          <input type="button" id="triangle" value="Triangle">  </input>
+          Side <input type="text" id="tside" value="3"
+                 style="width:20px"/>
+
+          <input type="button" id="rectangle" value="Triangle">  </input>
+          Breadth <input type="text" id="length" value="2"
+                 style="width:20px"/>
+          Length <input type="text" id="breadth" value="3"
+                           style="width:20px"/>
+
+
+          <h4> CA config </h4>
+
+          <input type="button" id="reset" value="Reset">  </input>
+          <input type="button" id="clear" value="Clear">  </input> <br>
+
+          <!-- <input type="button" id="restart" value="New Ca state">  </input> -->
+          <!-- <input type="text" id="percentCA" value="0.2" style="width: 20px"> </input> <br> -->
+
+          <input type="text" id="carulebinary" value="00000000"
+                 style="width:75px"> (CA Rule)
+
+          <b> Preset configurations </b>
+
+          <select hidden>
+            <option value="None"> ---- </option>
+            <option value="odd sequence recognizer"> Odd sequence recognizer </option>
+            <option value="even sequence recognizer"> Even sequence recognizer </option>
+          </select>
+          <!-- Bond disintegration factor <input type="text" id="disintegration" value="0.2">  </input> -->
+          <!-- Bond formation factor <input type="text" id="formation" value="0.6">  </input> -->
+
+        </aside>
+
+    </div>
+  </body>
+</html>

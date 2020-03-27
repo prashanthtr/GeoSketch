@@ -1,0 +1,91 @@
+
+Do you lead or Do your follow: Understanding user experience of partnership with
+artificial co-creators
+
+Our understanding of how humans perceive and behave with computer co-creators is
+guided by two theories of how humans treat computers, namely, humans treat
+computers as other humans do, i.e., humans apply same norms as they apply to
+humans to computers, and that humans treat computers differently compared to the
+way that they treat other humans. But are computers really partners in the sense
+that humans think that they are partners?
+
+There are several effects that prompt us to observe that computers do not think
+in the way that we often think that they are thinking. With interactive systems,
+this is observed as the uncanny valley effect with systems when systems are
+estimated more intelligent than they actually are (e.g., Eliza). It might be
+reasonable to consider that computers are not probably partners in the way that
+we think they are partners. This leaves open the question of - what kind of
+partners are computers really (if not equivalent to human) and can there be
+human computer partnership (HCP) ?
+
+While computers may not be partners in the sense of humans are partners - they
+may be able to impart a subjective experience that human might feel in
+partnerships. Without resorting to comparisons between humans and machines, how
+do we study the subjective sense of partnership that is engendered by
+computational co-creators during interaction. For the rest of the paper, we
+consider explore the issues of human-machine partnership in creative musical
+duets.
+
+In order to explore the issues of partnership, we conducted a study on duet
+musical creation involving a human and an artificial co-creator.
+
+We focused on the effects of negotiation strategy () and initiative
+(Lead/Assist) on the user experience of partnership.
+
+make decisions to maintain or change focused on strategies
+that the agent uses to negotiate differences in understanding.
+
+Musical duets are fun and engaging experiences, and allow the user to focus on
+the aspects of the keep their experience as the central phenomenon.
+
+We refer to the computer systems that collaborate with humans as computer
+co-creators. The central question that is of concern then is - how can computer
+co-creators that affect the subjective sense of human users be considered as
+partners to human beings?
+
+Can computers be partners to human beings
+
+On the one hand, ability of computers to be team-mates to human user.
+
+* Related work
+
+
+** Factors that affect the subjective impressions
+
+Related work on factors that affect the subjective impressions of the human user
+about the partner during collaboration.
+
+Past studies on human-team mate interaction have considered the effect of design
+and attribution on the subjective impressions of the partner. The /design/
+factor pertains to the actual behavior that the system exhibits and its
+influence on the recognition of the machine as a partner. The attribution factor
+concerns the knowledge of the co-creator as a human or a machine
+
+/The perception of the teammate as the computer or the human (attribution) does/
+/not seem to affect the problem solving behavior in prisoners dilemma or rule/
+/discovery tasks./
+
+People often have same biases across actual and imaginary partners in rule
+discovery tasks
+
+/While the actual behavior of the computer teammate affects individual/
+/likability, the social likeability of the partner is additionally influenced
+by/ /the humans’ behavior during the interaction./
+
+/Attribution does not play a role in problem solving behavior but may play a
+role in social behavior such as reciprocity/
+
+In some conditions there are two factors that influence the subjective
+impressions that humans form about their computer co-creators. The individual
+likeability depends on the actual behavior of the computer system, whereas the
+social desirability of the system is influenced to a greater degree by the
+behavior that humans themselves do during the task.
+(does it mean that humans will have non-reciprocous partners?)
+
+How does the actual behavior of the computer system play a role in engendering
+partnerships.
+
+
+
+
+** Discussion

@@ -1,0 +1,200 @@
+
+* Notes
+
+// There are experiments with extending the structural coupling aspect of
+// bittorio. The claim is that certain changes in cognitive structure can be
+// explained through changes in dynamics of structural coupling.
+
+//Given that bittorio has a style/class of structural patterns - i.e.,
+//specification of rules through cellular automata, the question - how should
+//the structure change so that the system maintains the same coupling relation
+//with the environment.
+
+// For this, structural coupling is described in three arrays - an array for the
+// boundary, and an array for the environments (inside and outside the boundary)
+// )other than the boundary.
+
+// The range of permissible structures possible through perturbations are the
+// 256 rules of the cellular automaton. At every step, the Ca simulates the new
+// structural configurations, that maintain the correltation between the
+// different sides of the boundary. A structure is stable when it persists for a
+// more than a single time step.
+
+// Stable structures result in computational of sequences such as odd and even
+// sequence recognition. We will be able to describe oscillatory behahiors
+// thorugh trajectories of structural changes.
+
+
+
+
+// opens up a new class of hypothesis about the emergence of computing - without
+// input/output representations, thorugh a combinatino of self-organization and
+// coupling.
+
+// Towards this, Varela created a model of enactive cogntiion involving a
+// combinatino of self-organization and structural coupling - bittorio.
+
+// The example of bittorio that still remains as an minmal example of enactive
+// cognition addresses a different question - how does a given self-organization
+// dynamics with a structural lead to rudimentary pattern recognition.
+
+// Elsewhere, Varela has mentioned the importance of structural changes, and
+// thaat iving organisms are in constant flux through their structure changes.
+
+// One of the difficulties with extending bittorio to involve structural changes
+// lies in the notion of structural coupling. In Bittorio, structures are
+// tightly coupled with the environment thorugh replacement rule. The value of
+// cells in bittorio's boundary (ie., cells) are replaced by the environmental
+// pertrubartions. While this mode of coupling allows us to , and there are
+// probably more than one rule that would bring about the same structural
+
+
+
+// The system moves to one of the allowed structural configurations that
+// maintains coupling. Multiple configurations might meet the same coupling
+// goals (much like how multiple accompaniment might work/lead to sense of
+// "Accompaniment" to various degrees)
+
+// these configurations might be effected by different trajectories of
+// structural changes -
+
+
+// Structural changes are effected through a combination of generation and
+// selection of viable structures that satisfy the constraints.
+
+
+// I propose to open the dyanmics of bittorio through two steps:
+// 1) Trajectories of structural change
+// 2) linkages between structure and through correlation
+
+// vastly greater class of hypothesis about hte conditions under wchih structure
+// remains constant leading to an observation about the computation.
+
+
+// illustrate this point as the system is an example of structural
+// change
+
+// Better fit with the other aspects of Varela's explainations changing
+// structures are more characteristic of the nature of groundless that Varela
+// speaks about. Structures are in constant change and have a history of
+// structural coupling with the envrionment. Different structures may infact be
+// coupled with different environmental states. I argue that the moments in
+// which structure remains constant - are momemts when we are able to think of
+// the system as structurally deterministic (in Varela's term) and are able to
+// describe behavior. Connection between mechanisms / process of natural drift
+// in natural selection
+
+// Allows us to formulate hypothesis about the changes in cogntiive structure -
+// Are changes in cognitive structure a result of changes in structural
+// trajectories, or changes in structural coupling (e.g., weights) between
+// diferent boundaries, or a combination of both.
+
+// allows us to more explicitly study the influence of history of structural
+// coupling on the changes in cogntiive structures in terms of patterns
+// recognition tasks (if any are observed) - definitely people have not been
+// able to study (at the high level, when are the AHA moments. At what point
+// does the child have an aha moment).
+
+
+
+* Old notes
+// These are experiments with structural coupling. Varela's bittorio is one way
+// to demonstrate how the reality conforms to particular mode of representation.
+// However, this is described in terms of patterns of signfication that are
+// brought forth through the coupling of a closed cellular autonmata in
+// envirnoment of perturbations.
+
+// In Bittorio, Varela sets out to describe the emergence of signification
+// without representation and without the notion of inputs and outputs.
+
+// Paradigmatically speaking, BIttorio stands in contrast to other kinds of
+// systems - symbolic, connectionist - in two important respects: Notion of
+// autonomy, and coupling with the environment.
+
+// The notion of autonomoy is operationalized as opertional closure of the cells
+// of the cellular automaton.
+
+// The coupling with the environment is specified through domain of
+// perturbations that do not destroy the operational closure.
+
+// Elsewhere Varela has mentioned that an organism is cotinuous structural
+// change.
+
+// SO this leads to me argue that - it structure also changes along with the
+// changes in the
+
+// What this allows us to generate - is a set of hypothesis about the emergence
+// of cogntiion, experience, and emergence of a world.
+
+// One clear problem consists of extending this paradigm to demonstrate the
+// viability of higher modes of cognition. However,
+
+// It is my claim/ I'm pushing for the idea that the combination of
+// 1) CA Rule
+// 2) Operational closure
+// 3) Coupling with envrionment
+
+// denote a set of fundamental mechanisms/processes that may  used to explain a mode of representation
+// that reality conforms to.
+
+
+// Given these fundamental processes - may themselves be rich and sufficient
+// enough to provide tools for demonstrating the presence of the following
+// question - What are dynamic and developmental changes in the mode of
+// representation, and how does reality then conform to new modes of
+// representation.
+
+// The second claim is that these dynamical developments to the modes of
+// representation are structural changes that do not result in destruction of
+// the systems' operational closure.
+
+
+// How are structural changes selected? Since the system has no input and
+// output, it is not possible to describe the system as optimizing/adapting with
+// respect to an external input alone. Structural changes are selected through
+// an internally specified rule or a goal. However, these structural changes may
+// not be satisfice with the envrionmental constraints.
+
+// Through the notion of natural drift. One of the structures from a set of
+// viable structural changes is selected as the
+
+// How often do structural changes occur? Do structural changes occur for every
+// configurational change? Or, are there situations when structure remains
+// constant, and only the configuration changes.
+
+// How does a change in the configuration affect the structural change? Every
+// change in the structure, affects the system configuration that follows.
+// However, does every configuration change also affect the structure that
+// produced it.
+
+// How do structures change? which structures are selected? are there any
+// relations between them?
+
+//What is the relation between strucure and domain of perturbations?
+
+
+// The domain of perturbations -
+// Domain of destructive
+// Structural changes through perturbartions
+
+// The idea is that two inter-connected self-organized CA systems will guide the
+// selection of the structural changes in a bittorio like system. One CA will
+// produce the changes in the configuration, and the other CA will change the
+// rules (structural changes) that alter the behavior of the CA. The environment
+// is ordered with some rules, has a predetermined structure of its own.
+
+// The question - whether particular modes of coupling are able to
+// 1) mimic
+// 2) predict
+// 3) learn
+// 4) break
+// 5) develop (demonstrate creativity)
+// 6) dynamic changes in mode of representation
+// 7) structural changes the demonstrate development
+// 8) growth and development in behavior
+
+// the structure of the environment
+
+// same bittorio - recognizes two sequences, then four sequences
+// same bitorio - recognizes two sequences,
+// rule environment - each cell, is 1 if more than 5 neighbours is 1. and 0 is

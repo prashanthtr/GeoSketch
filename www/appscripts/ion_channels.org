@@ -1,0 +1,54 @@
+
+
+
+// The operation of ion channels seem to be quite essential to the homeostatic
+// operation of the biological cell. In essence, the model requires a cell way,
+// as a lipid bilayer, and an accumulation of charges inside the cell.
+
+// The two layers of the lipid bilayer is modeled as a self-organized one
+// dimensional cellular automaton. Each cellular automaton self-configures and
+// responds to perturbations. The outer layer is perturbed by the evnrionment
+// and the inner layer. The inner layer is perturbed by the outer layer and the
+// inside of the cell - cellular fluid. The alignment of the cells in the
+// cellular automaton constitute the opening and closing of the ion-channels.
+
+// The ion-channels ensure the passage of ions inside and outside the cell. in
+// the external boundary, the ion channels provide passageway to the to the ions
+// that are adjacent to the cells. Similarly, in the internal boundary, the ion
+// channels provide passageway to ions that are adjacent to the internal
+// boundary. The accumulation and release of ions changes the voltage/charge
+// inside the cell as well as the gradient across the cell membrane.
+
+// The charge/voltage inside the cell is represented as a number (e.g., volts).
+// The cell has a resting potential which is described as a range. The cell acts
+// to maintain the charge within the range specified for the resting potential.
+// When the charge inside the cell is higher or lower than the range of resting
+// potential, the cell opens ion channels for ion transfer. The particular
+// position in which the ion-channel opens or closes is determined by the
+// current gradient of the membrane potential (distributon of charges around the
+// cell)
+
+
+// Opening ion-channels:
+
+// I have three of ideas for opening ion-channels: [only the first is consistent with MV vocabulary]
+// 1) generating perturbations from the inside of the cell.
+// 2) directly reconfiguring the internal cell boundary and using that as perturbation
+// 3) directly reconfiguring the cell boundary [simplifies model with 1 membrane for bilipid membrane.]
+
+// Vocabulary for 1:
+
+// The cell organs generates chemicals that perturb the internal cell boundary.
+// The internal boundary is also perturbed by the current state of the external
+// boundary. The internal cell boundary reconfigures itself based on
+// self-organized dynamics. The new state of the internal boundary acts as
+// perturbations for the external boundary. The external boundary also has
+// perturbations from the envroinment. Multiple perturbations at the same
+// location at the same time are considered as no-change of state. Based on
+// perturbations, the external boundary re-configures itself. Ion channels are
+// opened at positions in which the state of the cell of the outer boundary is
+// aligned with the state of the cell in the internal boundary.
+// Vocabulary for 1:
+
+// Movement: Cell moves in the direction that is opposite the concentration of
+// gradient descent.
