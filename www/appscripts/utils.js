@@ -5,19 +5,19 @@ var canvas = document.getElementById( 'svgCanvas' );
 
 //mapping from position to screen coordinates
 //needs the svg context for height and width
-export function create_rect_fn(scale_x, scale_y, canvas){
-    return function(x,y,width,height,fill){
+
+export function create_rectangle(x,y,width,height,fill){
         // Grid is 100 by 100
+
         var rect = document.createElementNS(svgns, 'rect');
-        rect.setAttributeNS(null, 'x', x*scale_x);
-        rect.setAttributeNS(null, 'y', y*scale_y);
+        rect.setAttributeNS(null, 'x', x);
+        rect.setAttributeNS(null, 'y', y);
         rect.setAttributeNS(null, 'height', height);
         rect.setAttributeNS(null, 'width', width);
         rect.setAttributeNS(null, 'fill', fill);
         rect.state = 0;
         canvas.appendChild(rect);
         return rect;
-    }
 }
 
 export function create_path_fn(scale_x, scale_y, canvas){
@@ -89,12 +89,16 @@ export function find_boundary_el(x,y, boundary){
 }
 
 
-export function setColor( cell ){
+export function setColor( cell, args ){
 
-    if(cell.state == 1){
-        cell.rect.setAttributeNS(null,"fill","#000000")
+    if( args!= null){
+        cell.rect.setAttributeNS(null,"fill",args)
+    }
+    else if(cell.state == 0){
+        cell.rect.setAttributeNS(null,"fill","#ffffff")
     }
     else{
-        cell.rect.setAttributeNS(null,"fill","#ffffff")
+        cell.rect.setAttributeNS(null,"fill","#00a7be")
+        cell.rect.setAttributeNS(null,"fill-opacity",0.5)
     }
 }

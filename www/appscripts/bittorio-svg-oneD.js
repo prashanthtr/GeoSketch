@@ -1,31 +1,41 @@
+//Learning is almost learning to have a frame.
+
 //remember timed perturbation
 
 // Lite version of ion channels with 3 charges, membrane column, and ion
 // exchange.
 
 import {js_clock} from "./clocks.js"
-import {create_rect_fn,create_path_fn, setColor, setNewpath} from "./utils.js"
-import {create_cell, on_boundary} from "./cell_spec_lite.js"
-import {bittorio} from "./boundary.js"
+import {create_rect_fn, create_quad_fn, create_parallelogram_fn} from "./geoShapes.js"
+import {golife} from "./gameOfLife.js"
+
 
 var n = 30;
 var side = n+5;
 
-var gridn = 10;
+var gridn = 50;
 
 var canvas = document.getElementById( 'svgCanvas' );
 var pW = canvas.clientWidth;
-var pH = canvas.clientHeight;
+var pH = canvas.clientWidth
 
-var percentPerturb = 0.1;
-var percentCA = 0.1;
-var pertOn = 0;
-var starting_config = [];
+    //canvas.clientHeight;
+
+var svgXY = document.getElementById( 'svgCanvas' ).getBoundingClientRect()
+var svgX = svgXY.left
+var svgY = svgXY.top
+
 // max 5 steps for now.
 var backward_computation = []; //stores the state of CA, and state of perturbing environment.
 
-var pWidth = pW - pW%gridn
+var pWidth = pW- pW%gridn
 var pHeight = pH - pH%gridn
+
+// pWidth = pWidth>pHeight?pHeight:pWidth; //smaller of the two
+//pWidth = pHeight
+pHeight = pWidth
+
+var workspace = [];
 
 var t = 0; //as time
 
@@ -41,30 +51,37 @@ var side_h = scale_h;
 var moveState = 0;
 var perturbOn = 0;
 
-var create_rect = create_rect_fn(scale_w, scale_h, canvas);
-var create_path = create_path_fn(scale_w, scale_h, canvas);
+var currentFig = null;
 
-var cellularAutomaton = bittorio( create_rect, create_path, gridn );
+//var createRectShape = create_rectangle(scale_w, scale_h, canvas);
+var create_rect = create_rect_fn(scale_w, scale_h, canvas);
+var create_parallelogram = create_parallelogram_fn(scale_w, scale_h, canvas);
+//var create_path = create_path_fn(scale_w, scale_h, canvas);
+var create_quad = create_quad_fn(scale_w, scale_h, canvas);
+
+var imageCoords = [];
+
+var gol = golife( gridn )(side_w, side_h);
 
 var ca= [];
 
-// inititalize envrionment cells
-for (var i = 0; i < gridn; i++) {
-    ca[i] = cellularAutomaton( i, side_w, side_h );
-}
+// // inititalize envrionment cells
+// for (var i = 0; i < gridn; i++) {
+//     ca[i] = cellularAutomaton( i, side_w, side_h );
+// }
 
-var ca2Perturb = [];
-var perturbRow = null;
+// var ca2Perturb = [];
+// var perturbRow = null;
 
-// inititalize envrionment cells
-for (var i = 0; i < n; i++) {
+// // inititalize envrionment cells
+// for (var i = 0; i < n; i++) {
 
-    ca2Perturb[i] = [];
-    for(var j = 0; j< n; j++){
-        ca2Perturb[i][j] = 0
+//     ca2Perturb[i] = [];
+//     for(var j = 0; j< n; j++){
+//         ca2Perturb[i][j] = 0
 
-    }
-}
+//     }
+// }
 
 var rafId = null;
 
@@ -133,8 +150,8 @@ var rafId = null;
 
 
 // //display after every action
-var display = js_clock(50, 600);
-var sense = js_clock(20, 600);
+var display = js_clock(50, 1000);
+var sense = js_clock(50, 1000);
 var t = 0;
 
 // //console.log(cells)
@@ -146,25 +163,27 @@ var drawLoop = function(){
 
     sense(now, function(){
 
-        if( perturbOn == 1){
-            for (var i = 0; i < gridn; i++) {
-                ca[i].sense( perturbRow.y/scale_h, perturbRow.x/scale_w, perturbRow.s, perturbRow.s);
-            }
-            perturbOn = 0;
+        if( workspace.length > 0){
+            gol.sense(workspace);
         }
 
-
+        // if( perturbOn == 1){
+        //     for (var i = 0; i < gridn; i++) {
+        //         ca[i].sense( currentFig.coords);
+        //     }
+        //     perturbOn = 0;
+        // }
 
         // //only for second CA
         // if( t >= n/2){
 
         //     //to know places of perturbation
         //     //activate the second CA
-        //     let perturbRow = []
+        //     let currentFig = []
         //     for( var col = 0; col < n; col++ ){
-        //         perturbRow[col] = cells[col][n/2+1].state; //immediate next state
+        //         currentFig[col] = cells[col][n/2+1].state; //immediate next state
         //     }
-        //     ca2.sense(pertOn, perturbRow);
+        //     ca2.sense(pertOn, currentFig);
         //     //ca2.sense( pertOn, ca2Perturb);
         // }
     })();
@@ -172,13 +191,14 @@ var drawLoop = function(){
     //displays every 250 ms
     display(now, function(){
 
-        console.log("POll")
-        // 5. copy current state into last state
-        console.log("Rule is " + document.getElementById("carulebinary").value);
-        var ruleString = document.getElementById("carulebinary").value
-        for (var i = 0; i < gridn; i++) {
-            ca[i].change_state( ruleString );
-        }
+        // console.log("POll")
+        // // 5. copy current state into last state
+        // console.log("Rule is " + document.getElementById("carulebinary").value);
+        // var ruleString = document.getElementById("carulebinary").value
+        // for (var i = 0; i < gridn; i++) {
+        //     ca[i].change_state( ruleString );
+        // }
+        gol.nextState();
 
     })();
 
@@ -227,12 +247,12 @@ var drawLoop = function(){
 //         // 2. reconfigure 2nd CA for perturbation and activate next states
 //         if( pertOn == 1){
 
-//             let perturbRow = []
+//             let currentFig = []
 //             for( var col = 0; col < n; col++ ){
-//                 perturbRow[col] = cells[col][n/2+1].state; //immediate next state
+//                 currentFig[col] = cells[col][n/2+1].state; //immediate next state
 //             }
-//             //ca2.sense(pertOn, perturbRow);
-//             ca2.reconfigure(perturbRow);
+//             //ca2.sense(pertOn, currentFig);
+//             ca2.reconfigure(currentFig);
 //         }
 //         else{
 
@@ -243,12 +263,12 @@ var drawLoop = function(){
 
 //         }
 
-//         // var perturbRow = [];
+//         // var currentFig = [];
 //         // //original dynamics
 //         // for (var col = 0; col < n; col++) {
-//         //     perturbRow[col] = cells[col][n/2-1].state;
+//         //     currentFig[col] = cells[col][n/2-1].state;
 //         // }
-//         // ca2.reconfigure(perturbRow);
+//         // ca2.reconfigure(currentFig);
 //         // no change in state
 
 //         // var ca2state = ca2.getState();
@@ -339,60 +359,165 @@ window.addEventListener("keypress", function(c){
 
 window.addEventListener("mousemove", function(e){
 
-    if( moveState == 1){
-        setNewpath( perturbRow, e.offsetX, e.offsetY, perturbRow.b, perturbRow.l)
-        perturbRow.x = e.offsetX
-        perturbRow.y = e.offsetY
+    if( moveState == 0){
+
     }
+    else{
+
+        if( currentFig ){
+            var parent = currentFig.parentNode;
+            //console.log(parent)
+            //console.log(currentFig)
+            parent.removeChild(currentFig);
+        }
+
+        var x = e.clientX - svgX;
+        var y = e.clientY - svgY;
+        //x = x-x%scale_w //discretize so that its clear cells within region are affected
+        //y = y-y%scale_h
+
+        switch( moveState)
+        {
+
+            case "square":  {
+                var s1 = parseInt(document.getElementById("side").value)*scale_w
+                currentFig = create_rect(x, y, s1, s1,  "#ff0fff",  "#000000");
+            } break;
+
+            case "rhombus": {
+                var s1 = parseInt(document.getElementById("rside").value)*scale_w
+                currentFig = create_parallelogram(x, y, s1, s1, 60,  "#ff0fff",  "#000000");
+            }break;
+
+            case "rectangle": {
+                var s1 = parseInt(document.getElementById("length").value)*scale_w
+                var s2 = parseInt(document.getElementById("breadth").value)*scale_h
+                currentFig = create_rect(x,y, s1, s2,  "#ff0fff",  "#000000");
+            }break;
+
+            case "parallelogram": {
+                var s1 = parseInt(document.getElementById("plength").value)*scale_w
+                var s2 = parseInt(document.getElementById("pbreadth").value)*scale_h
+                currentFig = create_parallelogram(x,y, s1, s2, 60,  "#ff0fff",  "#000000");
+            }break;
+
+
+            case "quadrilateral": {
+
+            }break;
+
+            case "eQTriangle": {
+
+            }break;
+
+            case "pentagon": {
+
+            }break;
+
+
+            case "hexagon": {
+
+            }break;
+
+            case "heptagon": {
+
+            }break;
+
+            case "octagon": {
+
+            }break;
+
+        }
+    }
+
+    // setNewpath( currentFig, e.offsetX, e.offsetY, currentFig.b, currentFig.l)
+    // currentFig.x = e.offsetX
+    // currentFig.y = e.offsetY
 });
 
 window.addEventListener("mousedown", function(e){
 
-    if( moveState == 1){
-
-        var x = perturbRow.x % scale_w
-        var y = perturbRow.y % scale_h
-        setNewpath( perturbRow, perturbRow.x - x, perturbRow.y-y, perturbRow.b, perturbRow.l)
-        perturbRow.x = perturbRow.x - x
-        perturbRow.y = perturbRow.y-y
+    if( moveState == "square" || moveState == "rhombus" || moveState == "rectangle" || moveState == "parallelogram"){
+        workspace.push(currentFig);
         moveState = 0;
-        perturbOn = 1;
+
+        //currentFig.x = e.offsetX;
+        //currentFig.y = e.offsetY;
+        //var x = currentFig.x % scale_w
+        //var y = currentFig.y % scale_h
+        //currentFig.setNewpath(currentFig, currentFig.x - x, currentFig.y-y);
+        // setNewpath( currentFig, currentFig.x - x, currentFig.y-y, currentFig.b, currentFig.l)
+        // currentFig.x = currentFig.x - x
+        // currentFig.y = currentFig.y-y
+        // moveState = 0;
+        // perturbOn = 1;
     }
 });
 
 
 document.getElementById("square").addEventListener("click", function(e){
 
-    var s = parseInt(document.getElementById("side").value)
-    var row = gridn/2 - s;
-    var col = gridn/2 - s;
-
-    if( perturbRow){
-        var parent    = perturbRow.parentNode;
-        parent.removeChild(perturbRow);
-    }
-    perturbRow = create_path(col, row, s*side_w, s*side_h,  "#0000ff");
-    perturbRow.x = col*scale_w
-    perturbRow.y = row*scale_h
-    perturbRow.b = s*side_w
-    perturbRow.l = s*side_h
-    perturbRow.s = s
-    moveState = 1;
-
-    //perturbRow.setAttributeNS(null, 'fill', "blue");
-
-    // for( i= row; i< row + Math.floor(s/2); i++){
-    //     perturbRow[i-row]  = []
-    //     for( j=col; j < col + Math.floor(n/2); j++){
-    //         perturbRow[i-row][j-col].rect = {}
-    //         perturbRow[i-row][j-col].rect = create_rect(col, row, side, side, "#0000ff");
-    //         perturbRow[i-row][j-col].path = create_path(col, row, side, side,  "#ff0000");
-    //         perturbRow[i-row][j-col].state = 1;
-    //     }
-    // }
-
+    var s1 = parseInt(document.getElementById("side").value)*scale_w
+    var x = pW/2;
+    var y = pH/2;
+    currentFig = create_rect(x,y, s1, s1,  "#00ffff",  "#000000");
+    moveState = "square";
 
 });
+
+document.getElementById("rhombus").addEventListener("click", function(e){
+
+    var s1 = parseInt(document.getElementById("rside").value)*scale_w
+    var x = pW/2;
+    var y = pH/2;
+    currentFig = create_parallelogram(x,y, s1, s1, 60,  "#000fff",  "#000000");
+    moveState = "rhombus";
+
+});
+
+document.getElementById("rectangle").addEventListener("click", function(e){
+
+    var s1 = parseInt(document.getElementById("length").value)*scale_w
+    var s2 = parseInt(document.getElementById("breadth").value)*scale_h
+    var x = pW/2;
+    var y = pH/2;
+    currentFig = create_rect(x,y, s1, s2,  "#000fff",  "#000000");
+    moveState = "rectangle";
+
+});
+
+document.getElementById("parallelogram").addEventListener("click", function(e){
+    var s1 = parseInt(document.getElementById("plength").value)*scale_w
+    var s2 = parseInt(document.getElementById("pbreadth").value)*scale_h
+    var x = pW/2;
+    var y = pH/2;
+    currentFig = create_parallelogram(x,y, s1, s2, 60,  "#000fff",  "#000000");
+    moveState = "parallelogram";
+});
+
+
+// document.getElementById("rectangle").addEventListener("click", function(e){
+
+//     var s1 = parseInt(document.getElementById("length").value)
+//     var s2 = parseInt(document.getElementById("breadth").value)
+//     var row = gridn/2 - s1;
+//     var col = gridn/2 - s2;
+
+//     // if( currentFig){
+//     //     var parent    = currentFig.parentNode;
+//     //     parent.removeChild(currentFig);
+//     // }
+
+//     currentFig = create_rect(col, row, s1*side_w, s2*side_h,  "#0000ff");
+//     currentFig.x = col*scale_w
+//     currentFig.y = row*scale_h
+//     currentFig.b = s1*side_w
+//     currentFig.l = s2*side_h
+//     currentFig.s1 = s1
+//     currentFig.s2 = s2
+//     moveState = 1;
+
+// });
 
 // document.getElementById("reset").addEventListener("click",function(e){
 
@@ -419,13 +544,13 @@ document.getElementById("square").addEventListener("click", function(e){
 
 // document.getElementById("clear").addEventListener("click",function(e){
 
-//     var perturbRow = []
+//     var currentFig = []
 //     for(var col = 0 ; col < n; col++){
-//         perturbRow[col] = 0
+//         currentFig[col] = 0
 //     }
-//     // ca1.reconfigure(perturbRow)
+//     // ca1.reconfigure(currentFig)
 //     // ca1.clear();
-//     ca2.reconfigure(perturbRow)
+//     ca2.reconfigure(currentFig)
 //     ca2.clear();
 // });
 
@@ -445,17 +570,17 @@ document.getElementById("square").addEventListener("click", function(e){
 
 //     //later control proportion of white and black
 //     //generate new random sequence
-//     var perturbRow = []
+//     var currentFig = []
 //     for(var i = 0; i< n; i++){
 
 //         if( Math.random() < percentCA){
-//             perturbRow[i] = 1;
+//             currentFig[i] = 1;
 //         }
 //         else{
-//             perturbRow[i] = 0
+//             currentFig[i] = 0
 //         }
 //     }
-//     ca2.reconfigure(perturbRow);
+//     ca2.reconfigure(currentFig);
 // });
 
 
