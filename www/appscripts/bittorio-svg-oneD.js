@@ -6,7 +6,7 @@
 // exchange.
 
 import {js_clock} from "./clocks.js"
-import {create_rect_fn, create_quad_fn, create_parallelogram_fn} from "./geoShapes.js"
+import {create_rect_fn, create_quad_fn, create_parallelogram_fn, area} from "./geoShapes.js"
 import {golife} from "./gameOfLife.js"
 
 
@@ -36,6 +36,8 @@ var pHeight = pH - pH%gridn
 pHeight = pWidth
 
 var workspace = [];
+var area_string = []
+var ar_diagram = null;
 
 var t = 0; //as time
 
@@ -45,8 +47,8 @@ console.log(pWidth + "  " + pHeight);
 var scale_w = Math.floor(pWidth/gridn);
 var scale_h = Math.floor(pHeight/gridn);
 
-var side_w = scale_w;
-var side_h = scale_h;
+var side_w = 10; //scale_w;
+var side_h = 10; //scale_h;
 
 var moveState = 0;
 var perturbOn = 0;
@@ -61,7 +63,7 @@ var create_quad = create_quad_fn(scale_w, scale_h, canvas);
 
 var imageCoords = [];
 
-var gol = golife( gridn )(side_w, side_h);
+var gol = golife( gridn )(scale_w, scale_h, side_w, side_h);
 
 var ca= [];
 
@@ -151,194 +153,195 @@ var rafId = null;
 
 // //display after every action
 var display = js_clock(50, 1000);
-var sense = js_clock(50, 1000);
+var sense = js_clock(50, 500);
 var t = 0;
 
 // //console.log(cells)
 
+
 // //runs simulation of cellular autonmaton
-var drawLoop = function(){
+// var drawLoop = function(){
 
-    var now = Date.now();
+//     var now = Date.now();
 
-    sense(now, function(){
+//     sense(now, function(){
 
-        if( workspace.length > 0){
-            gol.sense(workspace);
-        }
-
-        // if( perturbOn == 1){
-        //     for (var i = 0; i < gridn; i++) {
-        //         ca[i].sense( currentFig.coords);
-        //     }
-        //     perturbOn = 0;
-        // }
-
-        // //only for second CA
-        // if( t >= n/2){
-
-        //     //to know places of perturbation
-        //     //activate the second CA
-        //     let currentFig = []
-        //     for( var col = 0; col < n; col++ ){
-        //         currentFig[col] = cells[col][n/2+1].state; //immediate next state
-        //     }
-        //     ca2.sense(pertOn, currentFig);
-        //     //ca2.sense( pertOn, ca2Perturb);
-        // }
-    })();
-
-    //displays every 250 ms
-    display(now, function(){
-
-        // console.log("POll")
-        // // 5. copy current state into last state
-        // console.log("Rule is " + document.getElementById("carulebinary").value);
-        // var ruleString = document.getElementById("carulebinary").value
-        // for (var i = 0; i < gridn; i++) {
-        //     ca[i].change_state( ruleString );
-        // }
-        gol.nextState();
-
-    })();
-
-
-//         //Hold off from saving state yet
-//         // if( backward_computation.length >= 10){
-//         //     backward_computation.shift();
-//         // }
-//         // else{
-//         //     var env = [];
-//         //     row = gridn-1;
-//         //     for(col = 0; col < n; col++){
-//         //         env[col] = cells[col][row].state;
-//         //     }
-
-//         //     var last_ca = [];
-//         //     row = n-1;
-//         //     for(col = 0; col < n; col++){
-//         //         last_ca[col] = cells[col][row].state;
-//         //     }
-
-//         //     backward_computation.push({ "ca":  boundary.map(function(f){return f.state}),
-//         //                                 "env": env,
-//         //                                 "last_ca": last_ca
-//         //                               });
-//         // }
-
-
-//         // 4. fall off the edge before ca2
-//         // inititalize envrionment cells
-//         for (var i = 0; i < n; i++) {
-//             for(var j = 0; j < n/2; j++){
-//                 cells[i][j].state = cells[i][j+1].state;
-//                 setColor(cells[i][j]);
-//             }
+//         if( workspace.length > 0){
+//             gol.sense(workspace);
 //         }
 
-//         // 5. copy current state into last state
-//         var ca2state = ca2.getState();
-//         for (var i = 0; i < n; i++) {
-//             cells[i][n/2-1].state = ca2state[i];
-//             setColor(cells[i][n/2-1]); //start
-//         }
-
-
-//         // 2. reconfigure 2nd CA for perturbation and activate next states
-//         if( pertOn == 1){
-
-//             let currentFig = []
-//             for( var col = 0; col < n; col++ ){
-//                 currentFig[col] = cells[col][n/2+1].state; //immediate next state
-//             }
-//             //ca2.sense(pertOn, currentFig);
-//             ca2.reconfigure(currentFig);
-//         }
-//         else{
-
-//             //do not reconfigure with perturbation
-//             // i.e, let self-dynamics run
-//             // compenste for perturbation
-//             ca2.change_state(); //move to the next state;
-
-//         }
-
-//         // var currentFig = [];
-//         // //original dynamics
-//         // for (var col = 0; col < n; col++) {
-//         //     currentFig[col] = cells[col][n/2-1].state;
-//         // }
-//         // ca2.reconfigure(currentFig);
-//         // no change in state
-
-//         // var ca2state = ca2.getState();
-//         // // reconfigure the perturbation to the row (no perturbation)
-//         // //no random perturbations between timezones, CA continues with selforiganized dynamics
-//         // for (var col = 0; col < n; col++) {
-//         //     ca2Perturb[col] = ca2state[col];
-//         // }
-
-//         // 5. recompute and populate n next states
-//         var ca2state = ca2.getState();
-
-//         //3. fall off the edge before end of line
-//         // inititalize envrionment cells
-//         for (var row = n/2+1; row < n; row++) {
-//             ca2state = ca2.nextState(ca2state); //compute next state for future visualiation
-//             for(var col = 0 ; col < n; col++){
-//                 //console.log(cells[col][row])
-//                 //console.log(ca2state[col])
-//                 cells[col][row].state = ca2state[col];
-//                 setColor(cells[col][row]);
-//             }
-//         }
-
-
-//         //3. static state
-//         //3. copy perturbation
-
-//         //4. next state
-//         // ca1.nextState();
-//         // ca2.nextState();
-
-//         // 4. copy state to perturbation to nullify perturbation effect
-//         //var ca2state = ca2.getState()
-
-
-//         //copy to ensure that there is not perturbation without user interference
-
-//         t++;
-
-//         //5. shift existing environment
-//         // var row = gridn-1;
-//         // // inititalize envrionment cells
-//         // for (var i = 0; i < n; i++) {
-
-//         //     for(var j = row; j> 0; j--){
-//         //         cells[i][j].state = cells[i][j-1].state;
-//         //         setColor(cells[i][j])
+//         // if( perturbOn == 1){
+//         //     for (var i = 0; i < gridn; i++) {
+//         //         ca[i].sense( currentFig.coords);
 //         //     }
+//         //     perturbOn = 0;
 //         // }
 
-//         // //6. initaite new environment
-//         // for(var i = 0; i< n; i++){
+//         // //only for second CA
+//         // if( t >= n/2){
 
-//         //     if( Math.random() < percentPerturb){
-//         //         cells[i][0].state = 1;
+//         //     //to know places of perturbation
+//         //     //activate the second CA
+//         //     let currentFig = []
+//         //     for( var col = 0; col < n; col++ ){
+//         //         currentFig[col] = cells[col][n/2+1].state; //immediate next state
 //         //     }
-//         //     else{
-//         //         cells[i][0].state = 0;
-//         //     }
-//         //     setColor(cells[i][0])
+//         //     ca2.sense(pertOn, currentFig);
+//         //     //ca2.sense( pertOn, ca2Perturb);
 //         // }
+//     })();
 
-//         //continue
+//     //displays every 250 ms
+//     display(now, function(){
+
+//         // console.log("POll")
+//         // // 5. copy current state into last state
+//         // console.log("Rule is " + document.getElementById("carulebinary").value);
+//         // var ruleString = document.getElementById("carulebinary").value
+//         // for (var i = 0; i < gridn; i++) {
+//         //     ca[i].change_state( ruleString );
+//         // }
+//         gol.nextState();
 
 //     })();
 
-    rafId = requestAnimationFrame(drawLoop);
 
-}
+// //         //Hold off from saving state yet
+// //         // if( backward_computation.length >= 10){
+// //         //     backward_computation.shift();
+// //         // }
+// //         // else{
+// //         //     var env = [];
+// //         //     row = gridn-1;
+// //         //     for(col = 0; col < n; col++){
+// //         //         env[col] = cells[col][row].state;
+// //         //     }
+
+// //         //     var last_ca = [];
+// //         //     row = n-1;
+// //         //     for(col = 0; col < n; col++){
+// //         //         last_ca[col] = cells[col][row].state;
+// //         //     }
+
+// //         //     backward_computation.push({ "ca":  boundary.map(function(f){return f.state}),
+// //         //                                 "env": env,
+// //         //                                 "last_ca": last_ca
+// //         //                               });
+// //         // }
+
+
+// //         // 4. fall off the edge before ca2
+// //         // inititalize envrionment cells
+// //         for (var i = 0; i < n; i++) {
+// //             for(var j = 0; j < n/2; j++){
+// //                 cells[i][j].state = cells[i][j+1].state;
+// //                 setColor(cells[i][j]);
+// //             }
+// //         }
+
+// //         // 5. copy current state into last state
+// //         var ca2state = ca2.getState();
+// //         for (var i = 0; i < n; i++) {
+// //             cells[i][n/2-1].state = ca2state[i];
+// //             setColor(cells[i][n/2-1]); //start
+// //         }
+
+
+// //         // 2. reconfigure 2nd CA for perturbation and activate next states
+// //         if( pertOn == 1){
+
+// //             let currentFig = []
+// //             for( var col = 0; col < n; col++ ){
+// //                 currentFig[col] = cells[col][n/2+1].state; //immediate next state
+// //             }
+// //             //ca2.sense(pertOn, currentFig);
+// //             ca2.reconfigure(currentFig);
+// //         }
+// //         else{
+
+// //             //do not reconfigure with perturbation
+// //             // i.e, let self-dynamics run
+// //             // compenste for perturbation
+// //             ca2.change_state(); //move to the next state;
+
+// //         }
+
+// //         // var currentFig = [];
+// //         // //original dynamics
+// //         // for (var col = 0; col < n; col++) {
+// //         //     currentFig[col] = cells[col][n/2-1].state;
+// //         // }
+// //         // ca2.reconfigure(currentFig);
+// //         // no change in state
+
+// //         // var ca2state = ca2.getState();
+// //         // // reconfigure the perturbation to the row (no perturbation)
+// //         // //no random perturbations between timezones, CA continues with selforiganized dynamics
+// //         // for (var col = 0; col < n; col++) {
+// //         //     ca2Perturb[col] = ca2state[col];
+// //         // }
+
+// //         // 5. recompute and populate n next states
+// //         var ca2state = ca2.getState();
+
+// //         //3. fall off the edge before end of line
+// //         // inititalize envrionment cells
+// //         for (var row = n/2+1; row < n; row++) {
+// //             ca2state = ca2.nextState(ca2state); //compute next state for future visualiation
+// //             for(var col = 0 ; col < n; col++){
+// //                 //console.log(cells[col][row])
+// //                 //console.log(ca2state[col])
+// //                 cells[col][row].state = ca2state[col];
+// //                 setColor(cells[col][row]);
+// //             }
+// //         }
+
+
+// //         //3. static state
+// //         //3. copy perturbation
+
+// //         //4. next state
+// //         // ca1.nextState();
+// //         // ca2.nextState();
+
+// //         // 4. copy state to perturbation to nullify perturbation effect
+// //         //var ca2state = ca2.getState()
+
+
+// //         //copy to ensure that there is not perturbation without user interference
+
+// //         t++;
+
+// //         //5. shift existing environment
+// //         // var row = gridn-1;
+// //         // // inititalize envrionment cells
+// //         // for (var i = 0; i < n; i++) {
+
+// //         //     for(var j = row; j> 0; j--){
+// //         //         cells[i][j].state = cells[i][j-1].state;
+// //         //         setColor(cells[i][j])
+// //         //     }
+// //         // }
+
+// //         // //6. initaite new environment
+// //         // for(var i = 0; i< n; i++){
+
+// //         //     if( Math.random() < percentPerturb){
+// //         //         cells[i][0].state = 1;
+// //         //     }
+// //         //     else{
+// //         //         cells[i][0].state = 0;
+// //         //     }
+// //         //     setColor(cells[i][0])
+// //         // }
+
+// //         //continue
+
+// //     })();
+
+//     rafId = requestAnimationFrame(drawLoop);
+
+// }
 
 
 window.addEventListener("keypress", function(c){
@@ -348,11 +351,23 @@ window.addEventListener("keypress", function(c){
 	  //console.log("char code" + c.keyCode + "timestamp" + c.timeStamp)
 
     if( c.keyCode == 115){
-        drawLoop();
+        //drawLoop();
     }
     else if( c.keyCode == 114){
 	      cancelAnimationFrame(rafId);
 				rafId = null;
+    }
+    else if( c.keyCode == 74){
+        if( currentFig ){
+            currentFig.rotate -= 5;
+            currentFig.setAttributeNS(null, "transform", 'rotate(' +  currentFig.rotate + ',' + currentFig.centerx + "," + currentFig.centery + ')');
+        }
+    }
+    else if( c.keyCode == 75){
+        if( currentFig ){
+            currentFig.rotate += 5;
+            currentFig.setAttributeNS(null, "transform", 'rotate(' +  currentFig.rotate + "," + currentFig.centerx + "," + currentFig.centery + ')');
+        }
     }
 });
 
@@ -364,7 +379,7 @@ window.addEventListener("mousemove", function(e){
     }
     else{
 
-        if( currentFig ){
+        if( currentFig){
             var parent = currentFig.parentNode;
             //console.log(parent)
             //console.log(currentFig)
@@ -380,25 +395,32 @@ window.addEventListener("mousemove", function(e){
         {
 
             case "square":  {
-                var s1 = parseInt(document.getElementById("side").value)*scale_w
+                var s1 = parseInt(document.getElementById("side").value)*side_w
                 currentFig = create_rect(x, y, s1, s1,  "#ff0fff",  "#000000");
+                currentFig.setAttributeNS(null, "transform", 'rotate(' +  currentFig.rotate + ',' + currentFig.centerx + "," + currentFig.centery + ')');
             } break;
 
             case "rhombus": {
-                var s1 = parseInt(document.getElementById("rside").value)*scale_w
+                var s1 = parseInt(document.getElementById("rside").value)*side_w
                 currentFig = create_parallelogram(x, y, s1, s1, 60,  "#ff0fff",  "#000000");
+                currentFig.setAttributeNS(null, "transform", 'rotate(' +  currentFig.rotate + ',' + currentFig.centerx + "," + currentFig.centery + ')');
+
             }break;
 
             case "rectangle": {
-                var s1 = parseInt(document.getElementById("length").value)*scale_w
-                var s2 = parseInt(document.getElementById("breadth").value)*scale_h
+                var s1 = parseInt(document.getElementById("length").value)*side_w
+                var s2 = parseInt(document.getElementById("breadth").value)*side_h
                 currentFig = create_rect(x,y, s1, s2,  "#ff0fff",  "#000000");
+                currentFig.setAttributeNS(null, "transform", 'rotate(' +  currentFig.rotate + ',' + currentFig.centerx + "," + currentFig.centery + ')');
+
             }break;
 
             case "parallelogram": {
-                var s1 = parseInt(document.getElementById("plength").value)*scale_w
-                var s2 = parseInt(document.getElementById("pbreadth").value)*scale_h
+                var s1 = parseInt(document.getElementById("plength").value)*side_w
+                var s2 = parseInt(document.getElementById("pbreadth").value)*side_h
                 currentFig = create_parallelogram(x,y, s1, s2, 60,  "#ff0fff",  "#000000");
+                currentFig.setAttributeNS(null, "transform", 'rotate(' +  currentFig.rotate + ',' + currentFig.centerx + "," + currentFig.centery + ')');
+
             }break;
 
 
@@ -427,6 +449,17 @@ window.addEventListener("mousemove", function(e){
 
             }break;
 
+            case "area_diagram": {
+                if( ar_diagram.default == true){
+                    area_string += "M " + x + " " + y;
+                    ar_diagram.setAttributeNS(null, "d", area_string)
+                }
+                else{
+                    area_string += "L " + x + " " + y;
+                    ar_diagram.setAttributeNS(null, "d", area_string)
+                }
+            }break;
+
         }
     }
 
@@ -452,12 +485,19 @@ window.addEventListener("mousedown", function(e){
         // moveState = 0;
         // perturbOn = 1;
     }
+    else if( moveState == "area_diagram" && ar_diagram && ar_diagram.default == true){
+        ar_diagram.default = false
+    }
+    else if( moveState == "area_diagram" && ar_diagram && ar_diagram.default == false ){
+        moveState = 0;
+        workspace.push(ar_diagram);
+    }
 });
 
 
 document.getElementById("square").addEventListener("click", function(e){
 
-    var s1 = parseInt(document.getElementById("side").value)*scale_w
+    var s1 = parseInt(document.getElementById("side").value)*side_w
     var x = pW/2;
     var y = pH/2;
     currentFig = create_rect(x,y, s1, s1,  "#00ffff",  "#000000");
@@ -467,7 +507,7 @@ document.getElementById("square").addEventListener("click", function(e){
 
 document.getElementById("rhombus").addEventListener("click", function(e){
 
-    var s1 = parseInt(document.getElementById("rside").value)*scale_w
+    var s1 = parseInt(document.getElementById("rside").value)*side_w
     var x = pW/2;
     var y = pH/2;
     currentFig = create_parallelogram(x,y, s1, s1, 60,  "#000fff",  "#000000");
@@ -477,24 +517,38 @@ document.getElementById("rhombus").addEventListener("click", function(e){
 
 document.getElementById("rectangle").addEventListener("click", function(e){
 
-    var s1 = parseInt(document.getElementById("length").value)*scale_w
-    var s2 = parseInt(document.getElementById("breadth").value)*scale_h
+    var s1 = parseInt(document.getElementById("length").value)*side_w
+    var s2 = parseInt(document.getElementById("breadth").value)*side_h
     var x = pW/2;
     var y = pH/2;
     currentFig = create_rect(x,y, s1, s2,  "#000fff",  "#000000");
     moveState = "rectangle";
-
 });
 
 document.getElementById("parallelogram").addEventListener("click", function(e){
-    var s1 = parseInt(document.getElementById("plength").value)*scale_w
-    var s2 = parseInt(document.getElementById("pbreadth").value)*scale_h
+    var s1 = parseInt(document.getElementById("plength").value)*side_w
+    var s2 = parseInt(document.getElementById("pbreadth").value)*side_h
     var x = pW/2;
     var y = pH/2;
     currentFig = create_parallelogram(x,y, s1, s2, 60,  "#000fff",  "#000000");
     moveState = "parallelogram";
 });
 
+document.getElementById("area").addEventListener("click", function(e){
+
+    if( workspace.length!=0 && ar_diagram ){
+        var parent = ar_diagram.parentNode;
+        parent.removeChild(ar_diagram);
+    }
+    else if ( workspace.length==0 ){
+        //already removed
+    }
+
+    area_string = "M" + pW/2 + " " + pH/2;
+    ar_diagram = area(area_string, canvas)
+    moveState = "area_diagram"
+
+});
 
 // document.getElementById("rectangle").addEventListener("click", function(e){
 
@@ -542,17 +596,23 @@ document.getElementById("parallelogram").addEventListener("click", function(e){
 //     drawLoop();
 // });
 
-// document.getElementById("clear").addEventListener("click",function(e){
+document.getElementById("clear").addEventListener("click",function(e){
 
-//     var currentFig = []
-//     for(var col = 0 ; col < n; col++){
-//         currentFig[col] = 0
-//     }
-//     // ca1.reconfigure(currentFig)
-//     // ca1.clear();
-//     ca2.reconfigure(currentFig)
-//     ca2.clear();
-// });
+    gol.clear();
+});
+
+document.getElementById("reset").addEventListener("click",function(e){
+
+    for(var i= 0; i< workspace.length;i++){
+        var cf = workspace[i]
+        if( cf ){
+            var parent = cf.parentNode;
+            parent.removeChild(cf);
+        }
+    }
+    workspace = [];
+
+});
 
 // // n perturbation
 // document.getElementById("nP").addEventListener("click",function(e){

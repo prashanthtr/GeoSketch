@@ -18,11 +18,14 @@ export function create_rect_fn(scale_x, scale_y, canvas){
             rect.setAttributeNS(null, 'fill', fill);
             rect.setAttributeNS(null, 'fill-opacity', 0);
             rect.coords = [
-                x,
-                y,
-                x+l,
-                y+b
+                [x,y],
+                [x+l,y],
+                [x+l, y+b],
+                [x,y+b]
             ]
+            rect.rotate = 0;
+            rect.centerx = x+l/2
+            rect.centery = y+b/2
             canvas.appendChild(rect);
             return rect;
         }
@@ -39,8 +42,8 @@ export function create_parallelogram_fn(scale_x, scale_y, canvas){
             var rect = {}
             rect = document.createElementNS(svgns, 'path');
 
-            var p3x = Math.abs(l*Math.cos(2*Math.PI/3)) //60
-            var p3y = Math.abs(b*Math.sin(2*Math.PI/3))
+            var p3x = Math.round(Math.abs(l*Math.cos(2*Math.PI/3))) //60
+            var p3y = Math.round(Math.abs(b*Math.sin(2*Math.PI/3)))
             var pathstring = "M" + x + " " + y + " L" + (x+l) + " " + y + " L" + (x+p3x) + " " + (y+p3y) + " L" + (x-p3x) + " " + (y+p3y) + " L" + x + " " + y ;
             rect.setAttributeNS(null,"d", pathstring);
             rect.setAttributeNS(null, 'stroke', stroke);
@@ -48,11 +51,17 @@ export function create_parallelogram_fn(scale_x, scale_y, canvas){
             rect.setAttributeNS(null, 'fill-opacity', 0);
 
             rect.coords = [
-                x-p3x,
-                y,
-                x+l,
-                y+p3y
+                [x, y],
+                [x+l, y],
+                [x+p3x,y+p3y],
+                [x-p3x,y+p3y],
             ];
+
+            rect.rotate = 0;
+            rect.centerx = (2*x+p3x)/2
+            rect.centery = (2*y+p3y)/2
+
+
             canvas.appendChild(rect);
             return rect;
         }
@@ -178,4 +187,16 @@ export function setNewpath ( path, xpos, ypos, width, height ){
     var pathstring = "M" + xpos + " " + ypos + " L" + (xpos+width) + " " + ypos + " L" + (xpos+width) + " " + (ypos+height) + " L" + xpos + " " + (ypos+height) + " L" + xpos + " " + ypos ;
     path.setAttributeNS(null,"d", pathstring);
 
+}
+
+
+export function area(pathstring, canvas){
+
+    var path = document.createElementNS(svgns, 'path');
+    path.setAttributeNS(null,"d", pathstring);
+    path.setAttributeNS(null, 'stroke', "#000000");
+    path.setAttributeNS(null, 'fill-opacity', 0);
+    path.default = true; //default values set in
+    canvas.appendChild(path);
+    return path;
 }
